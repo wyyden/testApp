@@ -1,13 +1,12 @@
 package com.example.testApp.controller;
 
-import com.example.testApp.entity.User;
+import com.example.testApp.domain.entity.User;
 import com.example.testApp.service.UserService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
-@Controller
+@RestController
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
@@ -43,6 +42,6 @@ public class UserController {
     public void transfer(@RequestParam("fromUsername") String fromUsername,
                          @RequestParam("toUsername") String toUsername,
                          @RequestParam("amount") BigDecimal amount) {
-        transferService.transfer(fromUsername, toUsername, amount);
+        userService.sendMoney(fromUsername, toUsername, amount);
     }
 }

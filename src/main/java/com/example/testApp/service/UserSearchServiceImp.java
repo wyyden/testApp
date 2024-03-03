@@ -1,13 +1,15 @@
 package com.example.testApp.service;
 
-import com.example.testApp.entity.User;
+import com.example.testApp.domain.entity.User;
 import com.example.testApp.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @Service
-public class UserSearchServiceImp implements UserSearchService{
+public class UserSearchServiceImp implements UserSearchService {
 
     private final UserRepository userRepository;
 
@@ -16,23 +18,30 @@ public class UserSearchServiceImp implements UserSearchService{
     }
 
     @Override
-    public User searchForDate(LocalDate birthDate) {
-        
-        return null;
-    }
-
-    @Override
     public User searchForPhone(String phone) {
-        return null;
+        return userRepository.findByPhone(phone);
     }
 
     @Override
     public User searchForEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email);
     }
 
     @Override
-    public User searchForFIO(String FIO) {
-        return null;
+    public Page<User> findByBirthdateAfter(LocalDate birthDate, Pageable pageable) {
+        if (birthDate == null) {
+            return userRepository.findAll(pageable);
+        } else {
+            return userRepository.findByBirthDateAfter(birthDate, pageable);
+        }
+    }
+
+    @Override
+    public Page<User> findByFirstNameOrLastName(String firstName, String lastName,Pageable pageable) {
+        if (firstName == null) {
+            return userRepository.findAll(pageable);
+        } else {
+            return userRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName, pageable);
+        }
     }
 }

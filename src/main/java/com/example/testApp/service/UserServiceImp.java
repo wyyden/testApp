@@ -1,8 +1,10 @@
 package com.example.testApp.service;
 
-import com.example.testApp.entity.User;
+import com.example.testApp.domain.entity.Account;
+import com.example.testApp.domain.entity.User;
 import com.example.testApp.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -74,9 +76,23 @@ public class UserServiceImp implements UserService {
         User userFrom = userRepository.findByUsername(userNameFrom);
         if (userFrom.getAccount().getBalance().longValue() >= amount.longValue() && amount.longValue() > 0) {
             User userTo = userRepository.findByUsername(userNameTo);
-            userTo.getAccount().getBalance().add(amount);
+            Account accountTo = userTo.getAccount();
+            Account accountFrom = userFrom.getAccount();
+            accountTo.setBalance(accountTo.getBalance().add(amount));
+            accountFrom.setBalance(accountFrom.getBalance().subtract(amount));
             return true;
         }
         return false;
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        return userRepository.findByUsername(username);
+
+    }
+
+    @Override
+    public UserDetailsService userDetailsService() {
+        return this::getByUsername;
     }
 }

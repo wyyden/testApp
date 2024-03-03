@@ -1,7 +1,7 @@
 package com.example.testApp.service;
 
-import com.example.testApp.entity.Account;
-import com.example.testApp.entity.User;
+import com.example.testApp.domain.entity.Account;
+import com.example.testApp.domain.entity.User;
 import com.example.testApp.repository.AccountRepository;
 import com.example.testApp.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
-@Service
+@Service()
 public class UserRegistrationServiceImp implements UserRegistrationService{
-    private UserRepository userRepository;
-    private AccountRepository accountRepository;
+    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
 
     public UserRegistrationServiceImp(UserRepository userRepository, AccountRepository accountRepository) {
         this.userRepository = userRepository;

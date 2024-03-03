@@ -1,4 +1,4 @@
-package com.example.testApp.entity;
+package com.example.testApp.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -8,28 +8,34 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode
+@Builder
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(name = "user_name", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(nullable = false)
+    private String password;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @ElementCollection
     @CollectionTable(name = "user_phones", joinColumns = @JoinColumn(name = "user_id"))
@@ -44,24 +50,27 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private LocalDate birthDate;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "account_id", unique = true)
+    @OneToOne(mappedBy = "users", cascade = CascadeType.ALL)
     private Account account;
 
-    public User(String username, String fullName, String phone,
+    public User(String username, String password,String firstName, String lastName, String phone,
                 String email, LocalDate birthDate, Account account) {
         this.username = username;
-        this.fullName = fullName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phones.add(phone);
         this.emails.add(email);
         this.birthDate = birthDate;
         this.account = account;
     }
 
-    public User(String username, String fullName, String phone,
+    public User(String username, String password,String firstName, String lastName, String phone,
                 String email, LocalDate birthDate) {
         this.username = username;
-        this.fullName = fullName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phones.add(phone);
         this.emails.add(email);
         this.birthDate = birthDate;
@@ -69,37 +78,51 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phones=" + phones +
+                ", emails=" + emails +
+                ", birthDate=" + birthDate +
+                ", account=" + account +
+                '}';
+    }
 }

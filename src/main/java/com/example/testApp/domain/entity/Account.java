@@ -1,4 +1,4 @@
-package com.example.testApp.entity;
+package com.example.testApp.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,14 +9,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Entity
 @EqualsAndHashCode
 @Table(name = "account")
 public class Account {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column
@@ -25,12 +24,22 @@ public class Account {
     @Column(name = "start_balance")
     private BigDecimal startBalance;
 
-    @OneToOne(mappedBy = "account")
+    @OneToOne()
+    @JoinColumn(name = "user_id", nullable = false)
     private User users;
 
     public Account(BigDecimal startBalance, User users) {
         this.balance = startBalance;
         this.startBalance = startBalance;
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", startBalance=" + startBalance +
+                '}';
     }
 }

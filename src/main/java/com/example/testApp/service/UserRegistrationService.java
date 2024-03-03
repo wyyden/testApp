@@ -1,6 +1,6 @@
 package com.example.testApp.service;
 
-import com.example.testApp.entity.User;
+import com.example.testApp.domain.entity.User;
 
 import java.math.BigDecimal;
 

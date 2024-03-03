@@ -1,6 +1,6 @@
 package com.example.testApp.service;
 
-import com.example.testApp.entity.Account;
+import com.example.testApp.domain.entity.Account;
 import com.example.testApp.repository.AccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class AccountServiceImp implements AccountService {
-    private AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
     private static final BigDecimal MAX_PERCENT = BigDecimal.valueOf(2.07);
     private static final BigDecimal LIMIT_PERCENT = BigDecimal.valueOf(2.02);
     private static final BigDecimal RATE = BigDecimal.valueOf(0.05);
