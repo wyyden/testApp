@@ -28,11 +28,10 @@ public class AccountServiceImp implements AccountService {
         for (Account account : accountList) {
             BigDecimal curBalance = account.getBalance();
             BigDecimal startBalance = account.getStartBalance();
-            if (curBalance.doubleValue()
-                    <= startBalance.multiply(LIMIT_PERCENT).doubleValue()) {
+            if (curBalance.divide(startBalance).doubleValue() <= LIMIT_PERCENT.doubleValue()) {
                 account.setBalance(curBalance.add(curBalance.multiply(RATE)));
             } else if (curBalance.doubleValue()
-                    < startBalance.multiply(MAX_PERCENT).doubleValue()) {
+                    < startBalance.add(startBalance.multiply(MAX_PERCENT)).doubleValue()) {
                 account.setBalance(startBalance.add(startBalance.multiply(MAX_PERCENT)));
             }
         }

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class AuthenticationService {
         phones.add(request.getPhone());
 
         Set<String> emails = new HashSet<>();
-        phones.add(request.getEmail());
+        emails.add(request.getEmail());
 
         User user = User.builder()
                 .username(request.getUsername())

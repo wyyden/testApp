@@ -74,7 +74,7 @@ public class UserServiceImp implements UserService {
     @Override
     public boolean sendMoney(String userNameFrom, String userNameTo, BigDecimal amount) {
         User userFrom = userRepository.findByUsername(userNameFrom);
-        if (userFrom.getAccount().getBalance().longValue() >= amount.longValue() && amount.longValue() > 0) {
+        if (userFrom.getAccount().getBalance().doubleValue() >= amount.doubleValue() && amount.doubleValue() > 0) {
             User userTo = userRepository.findByUsername(userNameTo);
             Account accountTo = userTo.getAccount();
             Account accountFrom = userFrom.getAccount();

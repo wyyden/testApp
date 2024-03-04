@@ -25,7 +25,7 @@ public class Account {
     private BigDecimal startBalance;
 
     @OneToOne()
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User users;
 
     public Account(BigDecimal startBalance, User users) {
@@ -33,6 +33,7 @@ public class Account {
         this.startBalance = startBalance;
         this.users = users;
     }
+
 
     @Override
     public String toString() {

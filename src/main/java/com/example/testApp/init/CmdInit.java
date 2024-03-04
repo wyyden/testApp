@@ -1,3 +1,4 @@
+/*
 package com.example.testApp.init;
 
 import com.example.testApp.domain.entity.User;
@@ -48,3 +49,4 @@ public class CmdInit implements CommandLineRunner {
 
     }
 }
+*/
